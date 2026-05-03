@@ -5,8 +5,12 @@ on:
         - cron: "0 0 * * *"
     workflow_dispatch:
         inputs:
+            version:
+                description: "Firefly III version"
+                required: false
+                type: string
             force:
-                description: "Force release version"
+                description: "Force release"
                 required: false
                 type: boolean
                 default: false
@@ -16,9 +20,9 @@ permissions:
     packages: write
 
 env:
-    IMAGE_NAME: ghcr.io/${{ github.repository_owner }}/fireflyiii-custom
-    LOCAL_IMAGE_NAME: localhost/fireflyiii-custom
-    FIREFLYIII_VERSION: ""
+    IMAGE_NAME: ""
+    LOCAL_IMAGE_NAME: ""
+    FIREFLYIII_VERSION: ${{ github.event.inputs.version }}
     NEEDS_RELEASE: ""
 
 jobs:
@@ -34,6 +38,7 @@ jobs:
             - name: Fetch release information
               env:
                   GH_TOKEN: ${{ github.token }}
+                  FIREFLYIII_VERSION: ${{ env.FIREFLYIII_VERSION }}
                   FORCE: ${{ github.event.inputs.force }}
               run: |
                   ROOT_DIR="$(pwd)"
@@ -48,7 +53,6 @@ jobs:
               if: ${{ env.NEEDS_RELEASE == 'true' }}
               env:
                   GH_TOKEN: ${{ github.token }}
-                  FIREFLYIII_VERSION: ${{ env.FIREFLYIII_VERSION }}
               run: ./build.sh
 
             - name: Login to GHCR
