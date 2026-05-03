@@ -25,6 +25,7 @@ mkdir -p "$WORK_DIR"
 echo "Copying files from image to host..."
 MSYS_NO_PATHCONV=1 podman run \
     --rm \
+    --user root \
     --entrypoint "/usr/bin/sh" \
     -v "$SCRIPTS_DIR:/var/z/scripts" \
     -v "$WORK_DIR:/var/z/work:z" \
