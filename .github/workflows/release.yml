@@ -29,6 +29,7 @@ jobs:
 
             - run: |
                 find . -type f -name "*.sh" -exec chmod +x {} \;
+                npm ci
 
             - name: Fetch release information
               env:
