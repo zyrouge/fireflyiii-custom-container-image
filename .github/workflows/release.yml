@@ -39,7 +39,7 @@ jobs:
                   . "./_utils.sh"
                   echo "IMAGE_NAME=$IMAGE_NAME" >> $GITHUB_ENV
                   echo "LOCAL_IMAGE_NAME=$LOCAL_IMAGE_NAME" >> $GITHUB_ENV
-                  . "./release-info.sh"
+                  "./release-info.sh"
                   echo "FIREFLYIII_VERSION=$(cat ./dist/version.txt)" >> $GITHUB_ENV
                   echo "NEEDS_RELEASE=$(cat ./dist/needs_release.txt)" >> $GITHUB_ENV
 
