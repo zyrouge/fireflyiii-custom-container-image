@@ -14,6 +14,7 @@ if [ -z "${FIREFLYIII_VERSION:-}" ]; then
         echo "Error: Failed to fetch fireflyiii version"
         exit 1
     fi
+    FIREFLYIII_VERSION="${FIREFLYIII_VERSION#v}"
 fi
 
 echo "Version: $FIREFLYIII_VERSION"

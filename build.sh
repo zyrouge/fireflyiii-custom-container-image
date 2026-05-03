@@ -29,7 +29,7 @@ MSYS_NO_PATHCONV=1 podman run \
     --entrypoint "/usr/bin/sh" \
     -v "$SCRIPTS_DIR:/var/z/scripts" \
     -v "$WORK_DIR:/var/z/work:z" \
-    docker.io/fireflyiii/core:latest \
+    "$FIREFLYIII_IMAGE_NAME:version-$FIREFLYIII_VERSION" \
     "/var/z/scripts/copy-files-image-to-host.sh"
 
 echo "Creating edit_transaction.work.js..."
