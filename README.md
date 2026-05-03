@@ -1,7 +1,11 @@
-# tinyproxy-container-image
+# fireflyiii-custom-container-image
 
-Container image for tinyproxy. Runs inside a distroless image.
+FireflyIII container image with some changes.
+
+## Changes
+
+- Fix datetime in transaction edit page.
 
 # License
 
-[MIT](./LICENSE)
+[Unlicense](./LICENSE)
