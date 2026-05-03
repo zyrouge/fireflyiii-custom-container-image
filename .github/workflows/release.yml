@@ -23,7 +23,7 @@ env:
     IMAGE_NAME: ""
     LOCAL_IMAGE_NAME: ""
     FIREFLYIII_VERSION: ${{ github.event.inputs.version }}
-    NEEDS_RELEASE: ""
+    NEEDS_RELEASE: ${{ github.event.inputs.force }}
 
 jobs:
     release:

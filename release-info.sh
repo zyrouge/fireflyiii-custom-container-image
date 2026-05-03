@@ -20,21 +20,21 @@ fi
 echo "Version: $FIREFLYIII_VERSION"
 echo "$FIREFLYIII_VERSION" > "$DIST_DIR/version.txt"
 
-if [ "${FORCE:-}" != "true" ]; then
+if [ -z "${NEEDS_RELEASE:-}" ]; then
     set +e
     IMAGE_MANIFEST=$(podman manifest inspect "$IMAGE_NAME:$FIREFLYIII_VERSION" 2>&1)
     FOUND_VERSION_EXIT_CODE="$?"
     set -e
     if [ "$FOUND_VERSION_EXIT_CODE" -eq 0 ]; then
-        echo "Version $FIREFLYIII_VERSION already exists, skipping release..."
-        exit 0
-    fi
-    if [ "$FOUND_VERSION_EXIT_CODE" -ne 125 ]; then
+        NEEDS_RELEASE="false"
+    elif [ "$FOUND_VERSION_EXIT_CODE" -eq 125 ]; then
+        NEEDS_RELEASE="true"
+    else
         echo "$IMAGE_MANIFEST"
         echo "Error: Failed to fetch image manifest"
         exit 1
     fi
 fi
 
-echo "Needs release: true"
-echo "true" > "$DIST_DIR/needs_release.txt"
+echo "Needs release: $NEEDS_RELEASE"
+echo "$NEEDS_RELEASE" > "$DIST_DIR/needs_release.txt"
