@@ -1,0 +1,17 @@
+{
+    "name": "@zyrouge/fireflyiii-custom-container-image",
+    "version": "0.0.0",
+    "private": true,
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/zyrouge/tinyproxy-container-image.git"
+    },
+    "keywords": [],
+    "author": "Zyrouge",
+    "type": "commonjs",
+    "dependencies": {
+        "esbuild": "^0.28.0",
+        "prettier": "^3.8.3",
+        "webcrack": "^2.16.0"
+    }
+}

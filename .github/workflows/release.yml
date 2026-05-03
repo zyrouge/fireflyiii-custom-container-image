@@ -1,0 +1,64 @@
+name: Publish
+
+on:
+    schedule:
+        - cron: "0 0 * * *"
+    workflow_dispatch:
+        inputs:
+            force:
+                description: "Force release version"
+                required: false
+                type: boolean
+                default: false
+
+permissions:
+    contents: read
+    packages: write
+
+env:
+    IMAGE_NAME: ghcr.io/${{ github.repository_owner }}/fireflyiii-custom
+    LOCAL_IMAGE_NAME: localhost/fireflyiii-custom
+    FIREFLYIII_VERSION: ""
+    NEEDS_RELEASE: ""
+
+jobs:
+    release:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+
+            - run: |
+                find . -type f -name "*.sh" -exec chmod +x {} \;
+
+            - name: Fetch release information
+              env:
+                  GH_TOKEN: ${{ github.token }}
+                  FORCE: ${{ github.event.inputs.force }}
+              run: |
+                  . "./_utils.sh"
+                  echo "IMAGE_NAME=$IMAGE_NAME" >> $GITHUB_ENV
+                  echo "LOCAL_IMAGE_NAME=$LOCAL_IMAGE_NAME" >> $GITHUB_ENV
+                  . "./release-info.sh"
+                  echo "FIREFLYIII_VERSION=$(cat ./dist/version.txt)" >> $GITHUB_ENV
+                  echo "NEEDS_RELEASE=$(cat ./dist/needs_release.txt)" >> $GITHUB_ENV
+
+            - name: Build image
+              if: ${{ env.NEEDS_RELEASE == 'true' }}
+              env:
+                  GH_TOKEN: ${{ github.token }}
+                  FIREFLYIII_VERSION: ${{ env.FIREFLYIII_VERSION }}
+              run: ./build.sh
+
+            - name: Login to GHCR
+              uses: redhat-actions/podman-login@v1
+              if: ${{ env.NEEDS_RELEASE == 'true' }}
+              with:
+                  registry: ghcr.io
+                  username: ${{ github.actor }}
+                  password: ${{ github.token }}
+
+            - name: Publish image to GHCR
+              if: ${{ env.NEEDS_RELEASE == 'true' }}
+              run: |
+                  podman manifest push --all ${{ env.LOCAL_IMAGE_NAME }}:${{ env.FIREFLYIII_VERSION }} ${{ env.IMAGE_NAME }}:${{ env.FIREFLYIII_VERSION }}
+                  podman manifest push --all ${{ env.LOCAL_IMAGE_NAME }}:${{ env.FIREFLYIII_VERSION }} ${{ env.IMAGE_NAME }}:latest
