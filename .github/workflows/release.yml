@@ -35,6 +35,7 @@ jobs:
                   GH_TOKEN: ${{ github.token }}
                   FORCE: ${{ github.event.inputs.force }}
               run: |
+                  ROOT_DIR="$(pwd)"
                   . "./_utils.sh"
                   echo "IMAGE_NAME=$IMAGE_NAME" >> $GITHUB_ENV
                   echo "LOCAL_IMAGE_NAME=$LOCAL_IMAGE_NAME" >> $GITHUB_ENV
