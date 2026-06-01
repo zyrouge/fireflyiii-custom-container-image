@@ -38,7 +38,7 @@ echo "Formatting edit_transaction.work.js..."
 (cd "$WORK_DIR" && npx prettier --write edit_transaction.work-pretty.js)
 echo "Patching edit_transaction.work.js..."
 cp "$WORK_DIR/edit_transaction.work-pretty.js" "$WORK_DIR/edit_transaction.work-patch.js"
-patch -u -i "$PATCHES_DIR/edit_transaction.js.patch" "$WORK_DIR/edit_transaction.work-patch.js"
+node "$PATCHES_DIR/edit_transaction.js.patch.js" "$WORK_DIR/edit_transaction.work-patch.js"
 echo "Minifying edit_transaction.work.js..."
 npx esbuild --minify "$WORK_DIR/edit_transaction.work-patch.js" --outfile="$WORK_DIR/edit_transaction.js"
 echo "Patched edit_transaction.js"
