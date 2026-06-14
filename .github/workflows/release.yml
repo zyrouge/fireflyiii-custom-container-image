@@ -1,4 +1,4 @@
-name: Publish
+name: Release
 
 on:
     schedule:
@@ -13,7 +13,7 @@ on:
                 description: "Force release"
                 required: false
                 type: boolean
-                default: false
+                default: true
 
 permissions:
     contents: read

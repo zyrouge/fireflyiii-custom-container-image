@@ -1,11 +1,15 @@
-FROM docker.io/fireflyiii/core:latest
-
+ARG IMAGE_NAME=fireflyiii-custom-container-image
 ARG MAINTAINER=hello@zyrouge.me
-ARG CREATED
-ARG FIREFLYIII_VERSION
+ARG CREATED=01-01-01T00:00:00Z
+
+ARG FIREFLYIII_IMAGE_NAME=docker.io/fireflyiii/core
+ARG FIREFLYIII_IMAGE_TAG=latest
+ARG FIREFLYIII_VERSION=0.0.0
+
+FROM $FIREFLYIII_IMAGE_NAME:$FIREFLYIII_IMAGE_TAG
 
 LABEL maintainer="$MAINTAINER"
-LABEL org.opencontainers.image.name="fireflyiii-custom-container-image"
+LABEL org.opencontainers.image.name="$IMAGE_NAME"
 LABEL org.opencontainers.image.created="$CREATED"
 LABEL org.opencontainers.image.version="$FIREFLYIII_VERSION"
 

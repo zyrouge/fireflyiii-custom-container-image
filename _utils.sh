@@ -17,3 +17,4 @@ LOCAL_IMAGE_NAME="localhost/fireflyiii-custom"
 
 FIREFLYIII_GIT_URL="https://github.com/firefly-iii/firefly-iii"
 FIREFLYIII_IMAGE_NAME="docker.io/fireflyiii/core"
+FIREFLYIII_IMAGE_TAG="latest"

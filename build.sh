@@ -55,6 +55,8 @@ podman manifest create "$LOCAL_IMAGE_NAME:$FIREFLYIII_VERSION"
 echo "Building image..."
 podman build \
     --build-arg CREATED="$CREATED" \
+    --build-arg FIREFLYIII_IMAGE_NAME="$FIREFLYIII_IMAGE_NAME" \
+    --build-arg FIREFLYIII_IMAGE_TAG="version-$FIREFLYIII_VERSION" \
     --build-arg FIREFLYIII_VERSION="$FIREFLYIII_VERSION" \
     --platform linux/amd64 \
     --manifest "$LOCAL_IMAGE_NAME:$FIREFLYIII_VERSION" \
